@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.Locale;
 
 class Segment {
     private Point startPoint;
@@ -18,27 +19,29 @@ class Segment {
     }
 
     public String toSvg() {
-        return "<svg height=\"250\" width=\"500\" xmlns=\"http://www.w3.org/2000/svg\">" +
-                "<line x1=\"" + startPoint.x +
-                "\" y1=\"" + startPoint.y +
-                "\" x2=\"" + endPoint.x + "\" y2=\"" + endPoint.y +
-                "\" style=\"stroke:red;stroke-width:8\" />" +
-                "</svg>";
+//        return "<line x1=\"" + startPoint.x +
+//                "\" y1=\"" + startPoint.y +
+//                "\" x2=\"" + endPoint.x +
+//                "\" y2=\"" + endPoint.y +
+//                "\" stroke=\"black\" />";
+
+        return String.format(
+                Locale.ENGLISH,
+                "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"black\"/>",
+                startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     }
 
     public double length() {
         return Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2));
     }
 
-    public static Segment[] getPerpendicularSegment(Segment line, Point c) {
-        int distX = line.getEndPoint().x - line.getStartPoint().x;
-        int distY = line.getEndPoint().y - line.getStartPoint().y;
+    public static Segment[] perpendicularSegments(Segment segment, Point point) {
+        double dX = segment.getEndPoint().x - segment.getStartPoint().x;
+        double dY = segment.getEndPoint().y - segment.getStartPoint().y;
 
-        Point d = new Point(c.x + distY, c.y - distX);
-        Point e = new Point(c.x - distY, c.y + distX);
+        Point endPoint = new Point(point.x - dY, point.y + dX);
+        Point endPoint2 = new Point(point.x + dY, point.y - dX);
 
-        Segment[] array = {new Segment(c, d), new Segment(c, e)};
-
-        return array;
+        return new Segment[]{new Segment(point, endPoint), new Segment(point, endPoint2)};
     }
 }
