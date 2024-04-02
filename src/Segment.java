@@ -44,4 +44,22 @@ class Segment {
 
         return new Segment[]{new Segment(point, endPoint), new Segment(point, endPoint2)};
     }
+
+    public static Segment[] perpendicularSegments(Segment segment) {
+        double length = segment.length() / 2;
+
+        double pX = (segment.endPoint.x + segment.startPoint.x) / 2;
+        double pY = (segment.endPoint.y + segment.startPoint.y) / 2;
+
+        Point center = new Point(pX, pY);
+
+        double dX = (segment.getEndPoint().x - segment.getStartPoint().x) / segment.length();
+        double dY = (segment.getEndPoint().y - segment.getStartPoint().y) / segment.length();
+
+
+        Point endPoint = new Point(center.x - (dY * length), center.y + (dX * length));
+        Point endPoint2 = new Point(center.x + (dY * length), center.y - (dX * length));
+
+        return new Segment[]{new Segment(center, endPoint), new Segment(center, endPoint2)};
+    }
 }
