@@ -1,26 +1,18 @@
 import java.util.Locale;
 
-class Ellipse extends Shape {
-    Point center;
+class Ellipse implements Shape {
+    Vec2 center;
     double radiusX;
     double radiusY;
 
-    public Ellipse(Point center, double radiusX, double radiusY, Style style) {
-        super(style);
-        this.center = center;
-        this.radiusX = radiusX;
-        this.radiusY = radiusY;
-    }
-
-    public Ellipse(Point center, double radiusX, double radiusY) {
-        super(new Style("transparent", "black", 1.0));
+    public Ellipse(Vec2 center, double radiusX, double radiusY) {
         this.center = center;
         this.radiusX = radiusX;
         this.radiusY = radiusY;
     }
 
     @Override
-    public String toSvg() {
+    public String toSvg(String parameters) {
         return String.format(
                 Locale.ENGLISH,
                 "<ellipse cx=\"%f\" cy=\"%f\" rx=\"%f\" ry=\"%f\" %s/>",
@@ -28,6 +20,6 @@ class Ellipse extends Shape {
                 this.center.y,
                 this.radiusX,
                 this.radiusY,
-                this.style.toSvg());
+                parameters);
     }
 }
